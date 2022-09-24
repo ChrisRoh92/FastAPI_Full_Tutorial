@@ -22,7 +22,7 @@ class Book(Base):
     author          = Column(String, index=True)
     isbn            = Column(String, unique=True, index=True)
 
-    booking     = relationship("Booking", back_populates="booked_car")
+    bookings     = relationship("Booking", back_populates="booked_book")
 
 class Booking(Base):
     __tablename__ = "bookings"
@@ -33,7 +33,7 @@ class Booking(Base):
     description     = Column(String, index=True)
 
     book_id         = Column(Integer, ForeignKey("books.id"))
-    booked_book     = relationship("Book", back_populates="book_bookings")
+    booked_book     = relationship("Book", back_populates="bookings")
 
     user_id         = Column(Integer, ForeignKey("users.id"))
-    user            = relationship("User", back_populates="book_bookings")
+    user            = relationship("User", back_populates="bookings")
