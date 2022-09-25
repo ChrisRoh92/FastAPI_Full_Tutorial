@@ -25,7 +25,8 @@ class UserRegisterSchema(UserBaseSchema):
             "user" : {
                 "fullname" : "max mustermann",
                 "email": "max@mustermann.de",
-                "password" : "mustermann"
+                "password" : "mustermann",
+                "is_employee": True
             }
         }
 
