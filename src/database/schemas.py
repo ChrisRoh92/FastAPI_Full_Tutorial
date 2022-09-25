@@ -20,12 +20,14 @@ class UserLoginSchema(UserBaseSchema):
 
 class UserRegisterSchema(UserBaseSchema):
     fullname: str = Field(default=None)
+    is_employee: bool = Field(default=None)
     class Config: ## TODO(chrohne): check, if this actually works!
         schema_extra = {
             "user" : {
                 "fullname" : "max mustermann",
                 "email": "max@mustermann.de",
-                "password" : "mustermann"
+                "password" : "mustermann",
+                "is_employee": True
             }
         }
 
