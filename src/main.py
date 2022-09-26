@@ -175,14 +175,64 @@ def update_book_title(new_title: str, isbn: str, token: str = Depends(oauth2_sch
 ## booking specific endpoints
 ########################################################
 @app.get("/booking/all", tags=["booking"])
-def get_all_bookings(token: str = Depends(oauth2_scheme)):
-    pass
+def get_all_bookings(token: str = Depends(oauth2_scheme), db = Depends(get_db)):
+    return crud.get_all_bookings(db)
 
 @app.get("/booking/user", tags=["booking"])
-def get_all_bookings_of_current_user(token: str = Depends(oauth2_scheme)):
-    pass
+def get_all_bookings_of_current_user(token: str = Depends(oauth2_scheme), db = Depends(get_db)):
+    # Get mail from token:
+    current_mail = extract_email_from_token(token)
+    # Get User from db with current_mail
+    db_user = crud.get_user_by_mail(db, current_mail)
+    if db_user:
+        return crud.get_all_bookings_of_current_user(db, db_user.id)
+    else:
+        raise HTTPException(
+        status_code=404,
+        detail="User does not exist",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+
+@app.get("/booking/book_bookings", tags=["booking"])
+def get_all_bookings_of_a_book_by_isbn(isbn: str, token: str = Depends(oauth2_scheme), db = Depends(get_db)):
+    db_book = crud.get_book_by_isbn(db, isbn)
+    if db_book:
+        return crud.get_all_bookings_of_book(db, db_book.id)
+    else:
+        raise HTTPException(
+                status_code=404,
+                detail="Book with ISBN {} does not exist in database".format(isbn),
+                headers={"WWW-Authenticate": "Bearer"}
+            )
 
 @app.post("/booking/add", tags=["booking"])
-def add_single_booking(token: str = Depends(oauth2_scheme)):
-    pass
+def add_single_booking(booking: BookingBaseSchema, token: str = Depends(oauth2_scheme), db = Depends(get_db)):
+        # Get mail from token:
+    current_mail = extract_email_from_token(token)
+    # Get User from db with current_mail
+    db_user = crud.get_user_by_mail(db, current_mail)
+    if db_user:
+        ## Check if requestes Book exist:
+        db_book = crud.get_book_by_isbn(db, booking.isbn)
+        if db_book:
+            if not crud.book_has_booking_in_timerange(db, booking, db_book.id):
+                return crud.add_new_booking(db, booking, db_book.id, db_user.id)
+            else:
+                raise HTTPException(
+                status_code=404,
+                detail="Book with ISBN {} is already booked in requested time range".format(booking.isbn),
+                headers={"WWW-Authenticate": "Bearer"}
+            )
+        else:
+            raise HTTPException(
+                status_code=404,
+                detail="Book with ISBN {} does not exist in Database".format(booking.isbn),
+                headers={"WWW-Authenticate": "Bearer"}
+            )
+    else:
+        raise HTTPException(
+        status_code=404,
+        detail="User does not exist",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
 
