@@ -1,7 +1,9 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException
+from sqlalchemy import or_, and_
 ## User specific imports
 from .models import User, Book, Booking
+from .utils import create_timestamp
 from .schemas import UserRegisterSchema, BookBaseSchema, BookingBaseSchema
 from ..auth.password_handler import verify_password, get_password_hash
 
@@ -99,3 +101,52 @@ def update_book_title(db: Session, db_book: Book, new_title: str):
     db.commit()
     db.refresh(db_book)
     return db_book
+
+def does_book_exist(db: Session, isbn:str):
+    db_book =  db.query(Book).filter_by(isbn = isbn).first()
+    if db_book:
+        return True
+    return False
+
+########################################################
+## booking specific methods
+########################################################
+def get_all_bookings(db: Session, limit: int = 100):
+    return db.query(Booking).all()
+
+def book_has_booking_in_timerange(db: Session, booking: BookingBaseSchema, book_id: int):
+    from_timestamp = create_timestamp(booking.from_date)
+    to_timestamp = create_timestamp(booking.to_date)
+
+    if to_timestamp - from_timestamp < 0.0:
+        raise HTTPException(status_code=404, detail= "End Date and Time is before start Date and Time")
+
+    cond1 = and_(to_timestamp >= Booking.from_timestamp, to_timestamp < Booking.to_timestamp)
+    cond2 = and_(from_timestamp >= Booking.from_timestamp, from_timestamp < Booking.to_timestamp)
+
+    bookings = db.query(Booking).filter_by(book_id = book_id).filter(or_(cond1, cond2)).all()
+    if bookings:
+        print(bookings)
+        return True
+    return False
+
+def get_all_bookings_of_current_user(db: Session, user_id: int):
+    return db.query(Booking).filter_by(user_id = user_id).all()
+
+def get_all_bookings_of_book(db: Session, book_id: int):
+    # Get Book id:
+    return db.query(Booking).filter_by(book_id = book_id).all()
+
+
+def add_new_booking(db: Session, booking: BookingBaseSchema, book_id: int, user_id: int):
+    db_booking = Booking(
+        from_timestamp = create_timestamp(booking.from_date),
+        to_timestamp = create_timestamp(booking.to_date),
+        description = booking.description,
+        book_id = book_id,
+        user_id = user_id
+    )
+    db.add(db_booking)
+    db.commit()
+    db.refresh(db_booking)
+    return db_booking

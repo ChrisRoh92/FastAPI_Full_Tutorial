@@ -1,4 +1,5 @@
 from pydantic import BaseModel, Field, EmailStr
+from typing import Union
 from typing import List
 import datetime
 
@@ -38,7 +39,9 @@ class BookingBaseSchema(BaseModel):
     from_date: datetime.date
     to_date: datetime.date
     isbn: str
-    description: str
+    description: Union[str, None] = None
+
+
 
 ########################################
 ## Book
