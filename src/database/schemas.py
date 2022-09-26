@@ -36,10 +36,10 @@ class UserRegisterSchema(UserBaseSchema):
 ## Booking 
 ########################################
 class BookingBaseSchema(BaseModel):
-    from_date: datetime.date    = Field(default = None)
-    to_date: datetime.date      = Field(default = None)
-    isbn: str                   = Field(default = None)
-    description: str            = Field(default = None)
+    from_date: datetime.date        = Field(default = None)
+    to_date: datetime.date          = Field(default = None)
+    isbn: str                       = Field(default = None)
+    description: Union[str, None]   = None
 
 ########################################
 ## Book
