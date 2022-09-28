@@ -4,15 +4,19 @@ from datetime import timedelta
 from pydantic import EmailStr
 
 ## Custom imports:
-from .auth.auth_handler import create_access_token, extract_email_from_token, is_token_valid, oauth2_scheme, ACCESS_TOKEN_EXPIRE_MINUTES
+from app.auth.auth_handler import create_access_token, extract_email_from_token, is_token_valid, oauth2_scheme, ACCESS_TOKEN_EXPIRE_MINUTES
 # database related imports
-from .database.database import get_db
-from .database.schemas import BookBaseSchema, UserRegisterSchema, BookingBaseSchema, BookBaseListSchema
-from .database import crud, models, database
+from app.database.database import get_db
+from app.database.schemas import BookBaseSchema, UserRegisterSchema, BookingBaseSchema, BookBaseListSchema
+from app.database import crud, models, database
 
 
 models.Base.metadata.create_all(bind=database.engine)
 app = FastAPI()
+
+@app.get("/")
+def root():
+    return {"msg": "Hello World"}
 
 ########################################################
 ## user specific endpoints
