@@ -14,10 +14,6 @@ from app.database import crud, models, database
 models.Base.metadata.create_all(bind=database.engine)
 app = FastAPI()
 
-@app.get("/")
-def root():
-    return {"msg": "Hello World"}
-
 ########################################################
 ## user specific endpoints
 ########################################################
