@@ -1,4 +1,4 @@
-from .testing_main import client
+from .test_prep import client
 
 '''
 All tests in this file should ensure, that no endpoint which need a token, return data, withoud
