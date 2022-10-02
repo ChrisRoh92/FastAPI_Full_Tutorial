@@ -69,7 +69,11 @@ def update_email(new_email: EmailStr, token: str = Depends(oauth2_scheme), db = 
     # Get User from db with current_mail
     db_user = crud.get_user_by_mail(db, current_mail)
     if db_user:
-        return crud.update_email(db, db_user, new_email)
+        # return a new access token, because the email was updated!
+        new_db_user = crud.update_email(db, db_user, new_email)
+        access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+        token = create_access_token(data={"email": new_db_user.email}, expires_delta=access_token_expires)
+        return {"access_token": token, "token_type": "bearer"}
     else:
         raise HTTPException(
         status_code=404,
