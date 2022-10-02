@@ -15,4 +15,4 @@ def generate_access_token_header(email: str, password: str):
         return {"Authorization": f"Bearer {auth_token}"}
 
 ## Added User manually over docs
-access_token_header = generate_access_token_header("test@test.com", "test")
+# access_token_header = generate_access_token_header("test@test.com", "test")
