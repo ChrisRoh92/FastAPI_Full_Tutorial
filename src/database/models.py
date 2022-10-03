@@ -28,8 +28,8 @@ class Booking(Base):
     __tablename__ = "bookings"
 
     id              = Column(Integer, primary_key=True, index=True)
-    from_timestamp  = Column(Numeric, index=True)
-    to_timestamp    = Column(Numeric, index=True)
+    from_timestamp  = Column(Integer, index=True)
+    to_timestamp    = Column(Integer, index=True)
     description     = Column(String, index=True)
 
     book_id         = Column(Integer, ForeignKey("books.id"))
