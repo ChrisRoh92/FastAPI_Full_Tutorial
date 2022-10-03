@@ -1,9 +1,6 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException
-<<<<<<< HEAD
 from sqlalchemy import or_, and_
-=======
->>>>>>> bc2a4ab (Add Method to hash password for user, register/login/update password/email)
 ## User specific imports
 from .models import User, Book, Booking
 from .utils import create_timestamp
