@@ -76,7 +76,7 @@ def get_book_by_isbn(db: Session, isbn: str):
     return db.query(Book).filter_by(isbn = isbn).first()
 
 def get_books_from_author(db: Session, author: str, limit: int = 100):
-    return db.query(Book).filter_by(author = author).limit(limit).all()
+    return db.query(Book).filter_by(author = author).all()
 
 def delete_book_by_isbn(db: Session, isbn: str):
     successful = db.query(Book).filter_by(isbn = isbn).delete()
