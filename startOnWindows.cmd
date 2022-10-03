@@ -1,4 +1,4 @@
-uvicorn src.main:app --reload
+uvicorn app.main:app --reload
 
 @REM If you do not want to use localhost as default use the following line:
 @REM uvicorn src.main:app --reload --host <your_ip>
