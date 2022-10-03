@@ -136,22 +136,55 @@ def delete_current_user(password: str, token: str = Depends(oauth2_scheme), db =
 def get_all_books(token: str = Depends(oauth2_scheme), db = Depends(get_db)):
     return crud.get_all_books(db)
 
-@app.get("/books/{isbn}", tags=["book"])
+@app.get("/get_book_by_isbn", tags=["book"])
 def get_book_by_isbn(isbn:str, token: str = Depends(oauth2_scheme), db = Depends(get_db)):
-    return crud.get_book_by_isbn(db, isbn)
+    db_book =  crud.get_book_by_isbn(db, isbn)
+    if db_book:
+        return db_book
+    else:
+        raise HTTPException(
+        status_code=404,
+        detail="No books with isbn {} found in database".format(isbn),
+        headers={"WWW-Authenticate": "Bearer"},
+    )
 
-@app.get("/books/{author}", tags=["book"])
+@app.get("/get_books_from_author", tags=["book"])
 def get_books_from_author(author: str, token: str = Depends(oauth2_scheme), db = Depends(get_db)):
-    return crud.get_books_from_author(db, author)
+    db_books = crud.get_books_from_author(db, author)
+    if not db_books:
+        raise HTTPException(
+        status_code=404,
+        detail="No books from author {} found in database".format(author),
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    else:
+        return db_books
+
 
 @app.post("/book/add_single", tags=["book"])
 def add_new_book(book: BookBaseSchema, token: str = Depends(oauth2_scheme), db = Depends(get_db)):
-    return crud.add_new_book(db, book)
-
+    db_book = crud.get_book_by_isbn(db, book.isbn)
+    if not db_book:
+        return crud.add_new_book(db, book)
+    else:
+        raise HTTPException(
+        status_code=404,
+        detail="Book with ISBN {} already exist".format(book.isbn),
+        headers={"WWW-Authenticate": "Bearer"},
+    )
 @app.post("/book/add_list", tags=["book"])
 def add_new_books(input_books: BookBaseListSchema, token: str = Depends(oauth2_scheme), db = Depends(get_db)):
     for book in input_books.books:
-        crud.add_new_book(db, book)
+        db_book = crud.get_book_by_isbn(db, book.isbn)
+        if not db_book:
+            crud.add_new_book(db, book)
+        else:
+            raise HTTPException(
+            status_code=404,
+            detail="Book with ISBN {} already exists in database".format(book.isbn),
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    return {"message": "Book upload was successful"}
 
 @app.delete("/book", tags=["book"])
 def delete_book_by_isbn(isbn: str, token: str = Depends(oauth2_scheme), db = Depends(get_db)):
