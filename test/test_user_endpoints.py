@@ -1,4 +1,4 @@
-from .test_prep import client, access_token_header, test_email, test_password, test_fullname, update_access_token_header
+from .prep import client, access_token_header, test_email, test_password, test_fullname, update_access_token_header
 
 #################################################
 ## Test user specific endpoints with auth token

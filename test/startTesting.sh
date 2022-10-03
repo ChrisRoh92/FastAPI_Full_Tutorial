@@ -1,3 +1,5 @@
+#!/bin/bash
+
 rm sql_app.db
 
-pytest testing_*.py -vv
+pytest -vv
