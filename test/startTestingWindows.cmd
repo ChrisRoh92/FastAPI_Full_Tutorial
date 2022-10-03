@@ -1,3 +1,3 @@
-rm sql_app.db
+del sql_app.db
 
-pytest testing_not_auth.py -vv
+pytest -vv
