@@ -42,9 +42,6 @@ def get_book_by_isbn(db: Session, isbn: str):
 def get_books_from_author(db: Session, author: str, limit: int = 100):
     return db.query(Book).filter_by(author = author).limit(limit).all()
 
-def get_books_with_title_contains_query(db: Session, query: str):
-    pass ## TODO(chrohne): Check how to implement!
-
 def delete_book_by_isbn(db: Session, isbn: str):
     db.query(Book).filter_by(isbn = isbn).delete()
     db.commit()
