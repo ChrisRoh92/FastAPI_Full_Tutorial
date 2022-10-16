@@ -2,196 +2,144 @@
 
 ## **Summary**
 
-**German/Deutsch** 
+**German/Deutsch**
 
-Hallo und Herzlich Willkommen zu Branch 3 **end_points_with_authentification**. Seit dem letzten Branch haben wir die notwendingen Methoden und Objekte erstellt, mit denen wir den Zugriff auf bestimmte Endpunkte beschränken können. Wir haben das erste mal mit *Dependency Injection* gearbeitet und damit den Methoden den Token bereitzustellen, sofern dieser bei der Anfrage überhaupt mitgegeben wurde. Was aktuell fehlt, ist das tatsächliche Erstellen von Token mit User Daten. Hierzu müssen wir bis zum nächsten Branch 4 uns mit der Erstellung von einer Datenbank, der Modellierung dieser und der Bereitstellung in den End Punkten kümmern.
+Hallo und Herzlich Willkommen zu Branch 4 *database_with_sqlalchemy*. Seit dem letzten Branch, haben wir alle notwendigen Implementierungen durchgeführt um eine Datenbank mit dem *SQLAlchemy* Package zu erstellen. Wie bereits in der Einführung zu diesem Projekt erwähnt, soll in diesem Tutorial eine einfache Bibliotheksverwaltung geschrieben werden, in der es Nutzer, Bücher und Reservierungen, oder auch Bookings gibt. Für jedes dieser drei Elemente wurde ein Model oder eine Tabellenstruktur erstellt. Außerdem wurden die ersten CRUD Methoden zur Interaktion mit der Datenbank erstellt und die zum Zugriff auf die Datenbank notwendigen Methoden für die 'Dependency Injection' erstellt. Außerdem wurden so genannte 'schemas' erstellt, die als Eingabestruktur für die Endpunkte dienen. Diese müssen beim Abrufen der jeweiligen Endpunkte zur Verfügung gestellt werden, damit der jeweilige Endpunkt die Anfrage auch akzeptiert. Was wir in zwischen diesem und dem nächsten Brank zu tun haben, erfährst du in der unteren Sektion. Ich wünsche dir, wie immer, viel Spaß bei diesem Tutorial und freue mich immer über Vorschläge und Kommentare :)
 
 **English**
 
-Hello and welcome to Branch 3 **end_points_with_authentification**. Since the last branch we have created the necessary methods and objects to restrict access to certain endpoints. We have worked with *Dependency Injection* for the first time, providing the token to the methods if it was provided at all during the request. What is currently missing is the actual creation of tokens with user data. For this we have to take care of the creation of a database, the modeling of this and the provision in the end points until the next Branch 4.
+Hello and welcome to Branch 4 *database_with_sqlalchemy*. Since the last branch, we have done all the necessary implementations to create a database with the *SQLAlchemy* package. As already mentioned in the introduction to this project, in this tutorial we want to write a simple library management where there are users, books and reservations, or bookings. For each of these three elements a model or table structure was created. In addition, the first CRUD methods for interaction with the database were created and the methods necessary to access the database for 'Dependency Injection' were created. So-called 'schemas' were also created, which serve as the input structure for the endpoints. These must be provided when the respective endpoints are retrieved, so that the respective endpoint also accepts the request. You can find out what we have to do in between this and the next brank in the section below. As always, I hope you enjoy this tutorial and I'm always happy to receive suggestions and comments :)
 
-## **Tasks**
+## Task for this Branch
 
-**German/Deutsch** 
+**German/Deutsch**
 
-Wie im Video bereits angesprochen, soll die Software in diesem Projekt, als Bibliotheks Verwaltungssoftware genutzt werden. Das Bedeutet, dass wir natürlich eine Datenbank anlegen müssen, in dem wir sowohl neue Nutzer, Bücher und Ausleihvorgänge bzw. Reservierungen speichern müssen. Dabei kann jedem Buch ein Reservierungsvorgang, in diesem Beispiel 'Booking' genannt, zugeordnet werden. Wir müssen also in einer Reservierung eine Referenz auf das Buch und auf den Nutzer, der es gebucht hat halten. Nebem dem Anlegen der SQL Tabellen werden bis zum nächsten Branch auch die Methoden zur Interaktion mit der Datenbank, den dazugehörigen Eingabedaten Strukturen und dem Anlegen der Datenbank selbst Aufgabe sein. In den Folgenden Schritten, werden die einzelnen Task wie immer aufgelistet. Viel Spaß!
+In diesem Abschnitt wird es deine Aufgabe sein, Methoden bereitzustellen, mit denen man aus einem Klartext, das dem vom User übermittelten Passwort sein wird, ein gehashted, also nicht wieder auf die originale Eingabe zurückzuführenden Text, zu machen. Daneben wird eine Methode benötigt, die überprüft, ob ein Klartext Password, mit dem später in der Datenbank gehashten Password übereinstimmt oder nicht.
 
-- **[ ] Erstelle einen neuen Ordner in *src* mit dem Namen *database* und erstelle folgende Dateien in diesem Ordner:**
-    - crud.py
-    - database.py
-    - models.py
-    - schemas.py
+Mit diesen neuen Methoden, können wir dann auch die fehlenden Methoden in der *crud.py*, als auch in *main.py* implementieren, da wir nun in der Lage sind, die Passwörter der User sicher zu speichern. Nachfolgend habe ich dir erneut eine Liste mit den zu erledigenden Aufgaben erstellt. Viel Spaß damit :)
 
-- **[ ] Implementiere alle notwendigen Schritte für das Betreiben einer Datenbank mit SQLAlchemy in *database.py***
-    - Erstelle eine Variable *SQLALCHEMY_DAZABASE_URL* in der du die Adresse zur Datenbank angibst
-    - Erstelle ein Objekt mit der Methode *create_engine*
-    - Erstelle eine neues *Session* Objekt mit der Methode *sessionmaker* in der du das erstellte engine Objekt nutzt
-    - Erstelle mit *declarative_base()* ein Objekt mit dem Namen *Base*, von dem die Klassen zur Definition einer Datenbank Tabelle erben 
-    - Erstelle eine Funktion *get_db()* die wir später in den Endpunkten als Depedency Injection nutzen werden
+- **[ ] Erstelle ein neues File im *auth* Ordner mit dem Namen *password_handler.py***
+    - Importiere von *passlib.context* den *CryptoContext*
+    - Erstelle ein Objekt vom Typ *CryptoContext* und den namen *pwd_context* und übergebe foldene Argumente an:
+        - 'schemes=["bcrypt"]'
+        - 'deprecated="auto"'
+    - Erstelle die folgenden zwei Methoden:
+        - *verifiy_password*, die zwei Strings als Parameter besitzt
+        - *get_password_hash*, die einen String für das Passwort als Klartext als Parameter besitzt
+    - Um ein ein Klartext Passwort in Hash String zu verwandeln, musst du vom Objekt *pwd_context* die Methode *hash(...)* mit dem übergebenen Klartext aufrufen. Diese Methode gibt dir dann das aus dem Passwort erstellt Hash zurück, das du anschließend als Rückgabewert definierst
+    - Um zu prüfen, ob ein Klartext Passwort mit dem Hash des Passworts übereinstimmt, musst du vom Objekt *pwd_context* die Methode *verifiy(...)* aufrufen und dabei zuerst das Passwort als Klartext und anschließend das Password als Hash übergeben. Die Methode gibt dann ein Bool zurück, das ebenfalls als Rückgabewert für diese Methode dienen soll
 
-- **[ ] Implementiere drei Klassen in models.py zur Definition von den Datenbank Tabellen**
-    - Erstelle eine Klasse für User mit folgenden Feldern
-        - 'id' von Typ Integer, als *primary_key*
-        - 'email' von Typ String, der nur einmal vorkommen darf
-        - 'hashed_password' von Typ String
-        - 'is_employee' von Typ Boolean (optional)
-        - 'bookings' als *relationship* zur Klasse *Bookings*
+- **[ ] Vervollständigen der Methoden in crud.py**
+    - Erstelle eine Methode, in der geprüft wird, ob ein Nutzer bereits registriert ist.
+    - Erstelle eine Methode, in der ein User mit seiner Email und seinem Password authentifiziert wird. Gebe je nachdem entweder *True* oder *False* zurück.
+    - Erweitere die Methode *register_new_user*:
+        - Die Vorprüfung soll in den Endpunkten stattfinden (z.B. ob die übergebene Email-Adresse bereits registriert ist)
+        - Generiere mit *get_password_hash* ein Hash aus dem übergebenen Passwort
+        - Erstelle ein Objekt *db_user* vom Typ *User*, und übergebe die Daten für die *Email-Adresse* und dem *Password Hash*
+        - Füge dieses Objekt der Datenbank hinzu und gebe es auch wieder als Funktionsrückgabe Wert an
+    - Erweitere die Methode *update_password*:
+        - Erstelle dir aus dem neuem Passwort, der als Klartext übergeben wird, ein Hash mit der Methode *get_password_hash*
+        - Aktualisiere das Feld *hashed_password* von dem übergebenen User Objekt *db_user*
+        - Füge das aktualisierte *User* Objekt der Datenbank hinzu und nutze dieses Objekt ebenfalls als Funktionsrückgabe Wert
+    - Erweitere die Methode *remove_current_user*
+        - Da wir den Nutzer wirklich nur dann entfernen möchten, wenn wir uns das per erneuter Passwort Eingabe bestätigen lassen, implementierst du diese Methode erst jetzt.
+        - Nutze folgende Anweisung um das übergebene *User* Objekt aus der Datenbank zu entfernen: *db.query(User).filter_by(id = db_user.id).delete()*
+        - Speichere dir den Rückgabewert der Lösch-Operation in einer lokalen Variable. Sofern die Löschung erfolgreich war, wird in dieser Variable True stehen. Nur wenn das der Fall ist, möchten wir diese Operationen commiten und True zurückgeben, andernfalls geben wir False zurück
 
-    - Erstelle eine Klasse für Bücher mit folgenden Feldern
-        - 'id' von Typ Integer, als *primary_key*
-        - 'isbn' von Typ String, der nur einmal vorkommen darf
-        - 'title' von Typ String
-        - 'author' von Typ String
-        - 'bookings' als *relationship* zur Klasse *Bookings*
-    
-    - Erstelle eine Klasse für Bookings mit folgenden Feldern
-        - 'id' von Typ Integer, als *primary_key*
-        - 'from_timestamp' vom Typ Integer
-        - 'to_timestamp' vom Typ Integer
-        - 'description' vom Typ String (Optional)
+    - **[ ] Vervollständigen die User spezifischen Endpunkte in main.py**
+        - Nutze die Methode *get_user_by_email* aus *crud.py* um im Endpunkt den User über die Email zurückzugeben. Achte dabei darauf, dass im Falle, dass ein User nicht existiert, eine *HTTPException* geworfen wird
+        - Implementiere den Endpunkt zur Registrierung von einem Nutzer *register_user*:
+            - Prüfe zunächst, ob die übergebene Email Adresse bereits registriert ist. Sollte das der Fall sein, werfe eine *HTTPExcetion*
+            - Sofern das nicht der Fall ist, übergebe das übermittelte *UserRegisterSchema* und die Datenbank Session der Methode *register_new_user* in *crud.py* um einen neuen User zu erstellen. 
+            - Damit der User direkt nach der Registrierung Zugriff auf die geschützten Methoden hat, soll hier nun auch direkt ein Token aus der Email-Adresse des neuen Users erstellt und zurückgegeben werden.
+            - Erstelle dir hierzu zunächst eine lokale Variable *access_token_expires* das ein *timedelta* mit dem Wert der Konstante *ACCESS_TOKEN_EXPIRE_MINUTES* erstellt.
+            - Erstelle anschließend ein Token mit der Methode *create_access_token*, bei dem für den Parameter *data* ein Dictionary mit dem Schlüssel "email" und der User Email-Adresse als Wert übergeben wird. Außerdem wird das *access_token_expires* für den Parameter *expires_delta* der gleichen Methode übergeben.
+            - Gebe anschließend folgendes Dictionary als Rückgabe Wert für diesen Endpunkt zurück:
+                ```python
+                return {"access_token": token, "token_type":"bearer"} 
+                ``` 
+        - Implementiere den Endpunkt zum Login von einem User *login_user*
+            - Als Übergabeparameter wird Nachfolgendes benötigt:
+                - *form_data* vom Typ *OAuth2PasswordRequestForm*, das du von *fastapi.security* ggfs. noch importieren musst
+                - Eine Datenbank Session *db* als Dependency Injection von *get_db*
+            - Prüfe mit der Methode *authenticate_user* aus *crud.py*, ob die Eingaben aus *form_data* stimmen. Nutze Dazu die Felder *username* für die Email-Adresse und *password* für das Passwort
+            - Sofern der User sich mit den Eingaben authentifizieren konnte, erstellst du, ähnlich wie in *register_user* ein Token. 
+        - Implementiere die Methode zum Aktualisieren von der Email-Adresse *update_email*
+            - Extrahiere aus dem übergebenen Token die Email-Adresse
+            - Gebe dir für die Email Adresse das zugehörige User Objekt mit der Methode *get_user_by_mail* aus der *crud.py*
+            - Sofern es diesen User gibt, rufe die Methode zum Aktualisieren der Email-Adresse aus der *crud.py* auf
+            - Sofern es den User nicht gibt, werfe eine *HTTPException*
+        - Implementiere die Methode zum Aktualisieren des User Passwords *update_password*
+            - Führe die Schritte zum Ändern des Passwords, analog zu den Schritten beim Ändern der Email-Adresse, durch.
+        - Implementiere die Methode zum Löschen des aktuellen Nutzers' *delete_current_user*
+            - Prüfe im Vorfeld, ob das übergebene Passwort zu dem User gehört. Extrahiere hierfür davor die Email-Adresse aus dem übergebenen Token
+            - Sofern sich der User authentifizieren konnte, rufe das User Objekt mit der übergebenen Email-Adresse auf und prüfe zur Sicherheit nochmal, ob dieser User auch existiert. 
+            - Sofern der User existiert, rufe die in *crud.py* implementierte Methode *remove_current_user* auf, um den User aus der Datenbank zu entfernen.
+            - Prüfe anhand des Rückgabewertes von *remove_current_user* ob das Entfernen des Users' erfolgreich war
+            - Füge an allen Stellen eine Werfen von einer *HTTPException*, die dir sinnvoll erscheinen.
 
-        - 'book_id' als *ForeignKey* von einem Buch
-        - 'booked_book' als *relationship* zur Klasse Book
-        
-        - 'user_id' als *ForeignKey* von einem User
-        - 'user' als *relationship* zur Klasse User
+**English**
 
-- **[ ] Erstelle *Schemas* für die Bedienung der verschiedenen Schnittstelle in *schemas.py***
-    
-    - Erstelle eine Klasse *UserBaseSchema* das von *BaseModel* erbt und die Felder 'email' vom Typ *EmailStr* und 'password' vom Typ *str* enthält
-    
-    - Erstelle eine Klasse *UserLoginSchema* das von *UserBaseSchema* erbt. Das ist optional, da wir keine extra Felder brauchen.
-    
-    - Erstelle eine Klasse *UserRegisterSchema* das von *UserBaseSchema* erbt. Hier wird zusätzlich das Feld 'fullname' vom Typ *str* benötigt. Zusätzlich kannst du darin eine Klasse 'Config' erstellen in der du ein Dictionary mit dem namen 'schemas'extra' erstellt, das beim Testen der Schnittstelle in der Swagger Doku bereits Musterdaten als Eingabe anbietet. Das kann wie folgt aussehen:
-    ```python
-    class Config:
-        schema_extra = {
-            "user" : {
-                "fullname": "Max Mustermann",
-                "email": "Max@Mustermann.de",
-                "password": "password
-            }
-        }
-    ```
-    - Erstelle eine Klasse *BookingBaseSchema* das von *BaseModel* erbt und die die Felder 'isbn', 'description' vom Typ *str* und die Felder 'from_date' und 'to_date' vom Typ *datetime.date* enthält. Importiere hierzu *datetime*
+In this section it will be your task to provide methods to turn a plaintext password, which will be the password submitted by the user, into a hashed one, i.e. one that cannot be traced back to the original input. Besides, a method is needed to check whether a plaintext password matches the hashed password later in the database or not.
 
-    - Erstelle eine Klasse *BookBaseSchema* das von *BaseModel* erbt und die Felder 'isbn', 'title' und 'author' vom Typ *str* enthält. Überlebe dir auch hier, wie du eine Config Klasse mit einem Eingabevorschlag aussehen kann
+With these new methods, we can then implement the missing methods in *crud.py*, as well as in *main.py*, since we are now able to store the passwords of the users securely. Below, I have again provided you with a list of tasks to be done. Have fun with it :)
 
-    - Um nicht immer nur einzelne Bücher in die Datenbank laden zu können, sollen auch Listen von Büchern übergeben werden. Erstelle Hierzu eine Klasse *BookBaseListSchema* das von *BaseModel* erbt und ein Feld 'books' vom Typ *List[BookBaseSchema] = []* enthält. Überlege die auch hier, wie eine geschickte Config Klasse aussehen kann.
+- **[ ] Create a new file in the *auth* folder with the name *password_handler.py***.
+    - Import from *passlib.context* the *CryptoContext*.
+    - Create an object of type *CryptoContext* and name *pwd_context* and pass the following arguments:
+        - 'schemes=["bcrypt"]'
+        - 'deprecated="auto"'
+    - Create the following two methods:
+        - *verifiy_password*, which has two strings as parameters
+        - *get_password_hash*, which has one string for the password in plaintext as parameter
+    - To convert a plaintext password into hash string, you have to call from object *pwd_context* the method *hash(...)* with the passed plaintext. This method will then return the hash created from the password, which you then define as a return value
+    - To check if a plaintext password matches the hash of the password, you must call the *verifiy(...)* method from the *pwd_context* object, passing first the password as plaintext and then the password as hash. The method then returns a bool which should also serve as return value for this method
 
-- **[ ] Erstelle alle notwendigen Methoden zur Interaktion mit der Datenbank in *crud.py***
+- **[ ] Completing the methods in crud.py**
+    - Create a method that checks if a user is already registered.
+    - Create a method in which a user is authenticated with his email and password. Return either *True* or *False* as appropriate.
+    - Extend the method *register_new_user*:
+        - The pre-check should take place in the endpoints (e.g. if the given email address is already registered).
+        - Generate with *get_password_hash* a hash from the passed password
+        - Create an object *db_user* of type *user*, and pass the data for the *email-address* and the *password hash
+        - Add this object to the database and pass it again as function return value
+    - Extend the method *update_password*:
+        - Create a hash from the new password, which is passed as plaintext, with the method *get_password_hash
+        - Update the field *hashed_password* from the passed user object *db_user*.
+        - Add the updated *user* object to the database and use this object as function return value as well
+    - Extend the method *remove_current_user*.
+        - Since we really only want to remove the user if we have it confirmed by entering the password again, implement this method only now.
+        - Use the following statement to remove the passed *user* object from the database: *db.query(User).filter_by(id = db_user.id).delete()*
+        - Store the return value of the delete operation in a local variable. Provided the delete was successful, this variable will say True. Only if this is the case we want to commit these operations and return True, otherwise we return False
 
-    - Erstelle alle User spezifischen Methoden:
-        - Rufe alle User ab
-        - Erhalte einen User über die Email
-        - Registriere neue User | Noch nicht Implementieren!
-        - Update das Password von einem User | Noch nicht Implementieren!
-        - Update die Email von einem User
-        - Entferne einen User
-
-    - Erstelle alle Bücher spezifischen Methoden:
-        - Rufe alle Bücher ab
-        - Rufe ein Buch über die ISBN ab
-        - Rufe alle Bücher von einem Author ab
-        - Entferne ein Buch über die ISBN
-        - Erstelle ein neues Buch    
-
-
-- **[ ] Verbinde die Endpunkte in *main.py* und rufe die in *crud.py* erstellten Methoden um mit der Datenbank zu interagieren**
-    - Importiere dazu aus dem *database* ordner die wesentlichen Files
-
-    - Füge der Parameter Liste der Endpunkt Methoden folgendes hinzu *db = Depends(get_db)* um Zugriff auf die Session und damit auf die Datenbank zu erhalten
-
-    - Nutze die in *crud.py* implementierten Methoden in den Endpunkten
-
-**English** 
-
-As already mentioned in the video, the software in this project is to be used as library management software. This means, of course, that we have to create a database, in which we have to store new users, books and lending transactions or reservations. Each book can be assigned to a reservation, in this example called Booking. So we need to keep in a reservation a reference to the book and to the user who booked it. Besides creating the SQL tables, until the next branch, we will also have to create the methods for interacting with the database, the corresponding input data structures and the creation of the database itself. In the following steps, the individual tasks will be listed as usual. Have fun!
-
-- **[ ] Create a new folder in *src* named *database* and create the following files in this folder:**
-    - crud.py
-    - database.py
-    - models.py
-    - schemas.py
-
-- **[ ] Implement all necessary steps for running a database with SQLAlchemy in *database.py***.
-    - create a variable *SQLALCHEMY_DAZABASE_URL* in which you specify the address to the database
-    - Create an object with the *create_engine* method
-    - Create a new *session* object with the method *sessionmaker* in which you use the created engine object
-    - Create with *declarative_base()* an object with the name *base*, from which the classes for defining a database table inherit 
-    - Create a function *get_db()* which we will use later in the endpoints as depedency injection
-
-- **[ ] Implement three classes in models.py to define the database tables**.
-    - Create a class for user with the following fields
-        - 'id' of type integer, as *primary_key*.
-        - 'email' of type string, which may occur only once
-        - 'hashed_password' of type String
-        - 'is_employee' of type Boolean (optional)
-        - 'bookings' as *relationship* to class *Bookings*.
-
-    - Create a class for books with the following fields
-        - 'id' of type Integer, as *primary_key*.
-        - 'isbn' of type String, which must occur only once
-        - 'title' of type String
-        - 'author' of type String
-        - 'bookings' as *relationship* to class *Bookings*.
-    
-    - Create a class for bookings with the following fields
-        - 'id' of type Integer, as *primary_key*.
-        - 'from_timestamp' of type Integer
-        - to_timestamp' of type integer
-        - 'description' of type String (Optional)
-
-        - 'book_id' as *ForeignKey* of a book
-        - 'booked_book' as *relationship* to the class Book
-        
-        - 'user_id' as *ForeignKey* of a user
-        - 'user' as *relationship* to the class User
-
-- **[ ] Create *schemas* for the operation of the different interface in *schemas.py***.
-    
-    - Create a class *UserBaseSchema* that inherits from *BaseModel* and contains the fields 'email' of type *EmailStr* and 'password' of type *str*.
-    
-    - Create a class *UserLoginSchema* that inherits from *UserBaseSchema*. This is optional, since we don't need extra fields.
-    
-    - Create a class *UserRegisterSchema* that inherits from *UserBaseSchema*. Here you also need the field 'fullname' of type *str*. Additionally, you can create a class 'Config' in it in which you create a dictionary named 'schemas'extra' that already offers sample data as input when testing the interface in the Swagger doc. This can look like this:
-    ```python
-    class Config:
-        schema_extra = {
-            "user" : {
-                "fullname": "maxampleman",
-                "email": { "Max@Mustermann.de",
-                "password" : { "password
-            }
-        }
-    ```
-    - Create a class *BookingBaseSchema* that inherits from *BaseModel* and contains the fields 'isbn', 'description' of type *str* and the fields 'from_date' and 'to_date' of type *datetime.date*. Import *datetime* for this purpose
-
-    - Create a class *BookBaseSchema* that inherits from *BaseModel* and contains the fields 'isbn', 'title' and 'author' of type *str*. See also here how you can create a config class with an input proposal
-
-    - In order to be able to load not always only single books into the database, also lists of books are to be transferred. Create a class *BookBaseListSchema* that inherits from *BaseModel* and contains a field 'books' of type *List[BookBaseSchema] = []*. Think about what a clever config class could look like here as well.
-
-- **[ ] Create all necessary methods to interact with the database in *crud.py***.
-
-    - Create all user specific methods:
-        - Retrieve all users
-        - Get a user via email
-        - Register new users | Do not implement yet!
-        - Update the password of a user | Not yet implemented!
-        - Update the email of a user
-        - Remove a user
-
-    - Create all books specific methods:
-        - Retrieve all books
-        - Retrieve a book by ISBN
-        - Retrieve all books from an author
-        - Remove a book by ISBN
-        - Create a new book    
-
-
-- **[ ] Connect the endpoints in *main.py* and call the methods created in *crud.py* to interact with the database**.
-    - import the essential files from the *database* folder
-
-    - Add the following to the parameter list of the endpoint methods *db = Depends(get_db)* to get access to the session and thus to the database
-
-    - Use the methods implemented in *crud.py* in the endpoints
+    - **[ ] Complete the user specific endpoints in main.py**.
+        - Use the *get_user_by_email* method from *crud.py* to return the user by email in the endpoint. Make sure that in case a user does not exist, a *HTTPException* is thrown.
+        - Implement the endpoint to register a user *register_user*:
+            - First check if the given email address is already registered. If this is the case, throw a *HTTPExcetion*.
+            - If not, pass the given *UserRegisterSchema* and the database session of the method *register_new_user* into *crud.py* to create a new user. 
+            - So that the user has access to the protected methods directly after the registration, a token from the email address of the new user is to be created and returned here now also directly.
+            - First create a local variable *access_token_expires* which creates a *timedelta* with the value of the constant *ACCESS_TOKEN_EXPIRE_MINUTES*.
+            - Then create a token with the *create_access_token* method, passing for the *data* parameter a dictionary with the key "email" and the user email address as value. Also, pass the *access_token_expires* for the *expires_delta* parameter of the same method.
+            - Then return the following dictionary as the return value for this endpoint:
+                ```python
+                return {"access_token": token, "token_type": "bearer"} 
+                ``` 
+        - Implement the endpoint to login from a user *login_user*.
+            - The following is needed as a transfer parameter:
+                - *form_data* of type *OAuth2PasswordRequestForm*, which you may have to import from *fastapi.security*.
+                - A database session *db* as dependency injection of *get_db*
+            - Check with the method *authenticate_user* from *crud.py* if the input from *form_data* is correct. Use the fields *username* for the email address and *password* for the password.
+            - If the user could authenticate himself with the input, you create a token, similar to *register_user*. 
+        - Implement the method to update the email address *update_email*.
+            - Extract the email address from the passed token
+            - Get the user object for the email address with the method *get_user_by_mail* from *crud.py
+            - If this user exists, call the method to update the email address from *crud.py*.
+            - If the user does not exist, throw a *HTTPException*.
+        - Implement the method to update the user password *update_password*.
+            - Perform the steps to change the password, analogous to the steps to change the email address.
+        - Implement the method to delete the current user *delete_current_user*.
+            - Check in advance if the given password belongs to the user. Extract the email address from the passed token beforehand.
+            - If the user could authenticate, call the user object with the given email address and check again if this user exists. 
+            - If the user exists, call the method *remove_current_user* implemented in *crud.py* to remove the user from the database.
+            - Check the return value of *remove_current_user* to see if the user was removed successfully.
+            - Add a throwing of a *HTTPException* at all places that seem to make sense to you.
