@@ -4,229 +4,142 @@
 
 **German/Deutsch**
 
-Herzlich Willkommen zum Branch 5 *end_point_bookings*. Seit dem letzten Branch haben wir alle Endpunkte zu dem Erstellen und Abrufen von Buchungen bzw. Bookings implementiert. Dabei haben wir über das Vergleichen von Zeitstempeln aus den angefragten Zeiträumen eine Konfliktsuche implementiert, sodass nur dann Buchungen erstellt werden können, wenn ein Buch in einem Zeitraum nicht bereits gebucht ist. Bis zum nächsten Branch werden wir uns mit dem systematischen Testen unserer API Schnittstelle beschäftigen und Unit-Tests erstellen. Auch wenn es für einige von euch nicht unbedingt als notwendige Arbeit erachtet wird, empfehle ich dir sehr dich mit diesem Thema zu beschäftigen. Es hilft euch bei der Weiterentwicklung eurer Schnittstelle, bestehende Funktionen abzusichern und hilft euch auch nachzuweisen, dass eure Funktionen genau das erledigen, wofür ihr diese geschrieben habt. Ich wünsche euch wie immer viel Spaß bei diesem Tutorial :)
+Hallo und Herzlich Willkommen zu Branch 4 *database_with_sqlalchemy*. Seit dem letzten Branch, haben wir alle notwendigen Implementierungen durchgeführt um eine Datenbank mit dem *SQLAlchemy* Package zu erstellen. Wie bereits in der Einführung zu diesem Projekt erwähnt, soll in diesem Tutorial eine einfache Bibliotheksverwaltung geschrieben werden, in der es Nutzer, Bücher und Reservierungen, oder auch Bookings gibt. Für jedes dieser drei Elemente wurde ein Model oder eine Tabellenstruktur erstellt. Außerdem wurden die ersten CRUD Methoden zur Interaktion mit der Datenbank erstellt und die zum Zugriff auf die Datenbank notwendigen Methoden für die 'Dependency Injection' erstellt. Außerdem wurden so genannte 'schemas' erstellt, die als Eingabestruktur für die Endpunkte dienen. Diese müssen beim Abrufen der jeweiligen Endpunkte zur Verfügung gestellt werden, damit der jeweilige Endpunkt die Anfrage auch akzeptiert. Was wir in zwischen diesem und dem nächsten Brank zu tun haben, erfährst du in der unteren Sektion. Ich wünsche dir, wie immer, viel Spaß bei diesem Tutorial und freue mich immer über Vorschläge und Kommentare :)
 
 **English**
 
-Welcome to Branch 5 *end_point_bookings*. Since the last branch we have implemented all endpoints for creating and retrieving bookings. We have implemented a conflict search by comparing timestamps from the requested time periods, so that bookings can only be created if a book in a time period is not already booked. Between now and the next Branch, we'll be busy systematically testing our API interface and creating unit tests. While it may not be considered necessary work for some of you, I highly recommend you get involved with this topic. It will help you further develop your interface, validate existing functions and also help you prove that your functions do exactly what you wrote them for. As always, I hope you enjoy this tutorial :)
+Hello and welcome to Branch 4 *database_with_sqlalchemy*. Since the last branch, we have done all the necessary implementations to create a database with the *SQLAlchemy* package. As already mentioned in the introduction to this project, in this tutorial we want to write a simple library management where there are users, books and reservations, or bookings. For each of these three elements a model or table structure was created. In addition, the first CRUD methods for interaction with the database were created and the methods necessary to access the database for 'Dependency Injection' were created. So-called 'schemas' were also created, which serve as the input structure for the endpoints. These must be provided when the respective endpoints are retrieved, so that the respective endpoint also accepts the request. You can find out what we have to do in between this and the next brank in the section below. As always, I hope you enjoy this tutorial and I'm always happy to receive suggestions and comments :)
 
 ## Task for this Branch
 
 **German/Deutsch**
 
-Wie bereits in der Zusammenfassung beschrieben, werden bis zum nächsten Branch Unit-Tests zum Testen der Schnittstelle implementiert. Hierzu erstellen wir uns einen neuen Ordner neben dem eigentlichen Source-Code und erstellen uns hierfür auch Start-Skripte, ähnlich den Skripten zum Starten von dem Uvicorn Server.
+In diesem Abschnitt wird es deine Aufgabe sein, Methoden bereitzustellen, mit denen man aus einem Klartext, das dem vom User übermittelten Passwort sein wird, ein gehashted, also nicht wieder auf die originale Eingabe zurückzuführenden Text, zu machen. Daneben wird eine Methode benötigt, die überprüft, ob ein Klartext Password, mit dem später in der Datenbank gehashten Password übereinstimmt oder nicht.
 
-- **[ ] Benenne den Ordner *src* in *app* und erstelle daneben einen Ordner *test* mit einem "__init__" File**
+Mit diesen neuen Methoden, können wir dann auch die fehlenden Methoden in der *crud.py*, als auch in *main.py* implementieren, da wir nun in der Lage sind, die Passwörter der User sicher zu speichern. Nachfolgend habe ich dir erneut eine Liste mit den zu erledigenden Aufgaben erstellt. Viel Spaß damit :)
 
-- **[ ] Je nachdem auf welchem System du arbeitest, erstelle dir ein Skript zum Starten von den Tests**
-    - Für Linux *startTestingOnLinux.sh*
-        ```bash
-        #!/bin/bash
+- **[ ] Erstelle ein neues File im *auth* Ordner mit dem Namen *password_handler.py***
+    - Importiere von *passlib.context* den *CryptoContext*
+    - Erstelle ein Objekt vom Typ *CryptoContext* und den namen *pwd_context* und übergebe foldene Argumente an:
+        - 'schemes=["bcrypt"]'
+        - 'deprecated="auto"'
+    - Erstelle die folgenden zwei Methoden:
+        - *verifiy_password*, die zwei Strings als Parameter besitzt
+        - *get_password_hash*, die einen String für das Passwort als Klartext als Parameter besitzt
+    - Um ein ein Klartext Passwort in Hash String zu verwandeln, musst du vom Objekt *pwd_context* die Methode *hash(...)* mit dem übergebenen Klartext aufrufen. Diese Methode gibt dir dann das aus dem Passwort erstellt Hash zurück, das du anschließend als Rückgabewert definierst
+    - Um zu prüfen, ob ein Klartext Passwort mit dem Hash des Passworts übereinstimmt, musst du vom Objekt *pwd_context* die Methode *verifiy(...)* aufrufen und dabei zuerst das Passwort als Klartext und anschließend das Password als Hash übergeben. Die Methode gibt dann ein Bool zurück, das ebenfalls als Rückgabewert für diese Methode dienen soll
 
-        # Try to remove SQLlite Database
-        rm sql_app.db
+- **[ ] Vervollständigen der Methoden in crud.py**
+    - Erstelle eine Methode, in der geprüft wird, ob ein Nutzer bereits registriert ist.
+    - Erstelle eine Methode, in der ein User mit seiner Email und seinem Password authentifiziert wird. Gebe je nachdem entweder *True* oder *False* zurück.
+    - Erweitere die Methode *register_new_user*:
+        - Die Vorprüfung soll in den Endpunkten stattfinden (z.B. ob die übergebene Email-Adresse bereits registriert ist)
+        - Generiere mit *get_password_hash* ein Hash aus dem übergebenen Passwort
+        - Erstelle ein Objekt *db_user* vom Typ *User*, und übergebe die Daten für die *Email-Adresse* und dem *Password Hash*
+        - Füge dieses Objekt der Datenbank hinzu und gebe es auch wieder als Funktionsrückgabe Wert an
+    - Erweitere die Methode *update_password*:
+        - Erstelle dir aus dem neuem Passwort, der als Klartext übergeben wird, ein Hash mit der Methode *get_password_hash*
+        - Aktualisiere das Feld *hashed_password* von dem übergebenen User Objekt *db_user*
+        - Füge das aktualisierte *User* Objekt der Datenbank hinzu und nutze dieses Objekt ebenfalls als Funktionsrückgabe Wert
+    - Erweitere die Methode *remove_current_user*
+        - Da wir den Nutzer wirklich nur dann entfernen möchten, wenn wir uns das per erneuter Passwort Eingabe bestätigen lassen, implementierst du diese Methode erst jetzt.
+        - Nutze folgende Anweisung um das übergebene *User* Objekt aus der Datenbank zu entfernen: *db.query(User).filter_by(id = db_user.id).delete()
+        - Speichere dir den Rückgabewert der Lösch-Operation in einer lokalen Variable. Sofern die Löschung erfolgreich war, wird in dieser Variable True stehen. Nur wenn das der Fall ist, möchten wir diese Operationen commiten und True zurückgeben, andernfalls geben wir False zurück
 
-        # Start Testing with pytest
-        pytest -vv
-        ```
-        *Hinweis* Bitte mache dieses Skript Ausführbar mit folgendem Befehl:
-        ```bash
-        sudo chmod +x startTestingOnLinux.sh
-        ```
-    - Für Windows *startTestingOnWindows*
-        ```bat
-        del sql_app.db
-
-        pytest -vv
-        ```
-
-- **[ ] Erstelle die Datei *prep.py* in dem wir alle Vorbereitungen für das Testing implementieren**
-    - In diesem musst du den **TestClient**, der als Schnittstelle zu den Endpunkten in *main.py* dient, vo *fastapi.testclient* importieren
-    - Anschließend musst du das Package *sys* importieren und mit folgender Anweisung, das importieren aus dem *app* Ordner ermöglichen:
-    ```python
-    sys.path.append("..")
-    ```
-    - Importiere anschließend von *app.main* das Objekt **app**
-    - Erstelle eine Objekt vom Typ *TestClient* dem du das eben importierte *app* übergibst
-    - Setze drei Variablen für eine *Email-Adresse*, *Passwort* und einen *Namen*, die wir für die initiale Registrierung und dem Abrufen von einem Token zur Nutzung der geschützten Endpunkte benötigen
-    - Erstelle dir anschließend eine Methode, die als Parameter eine *Email-Adresse*, ein *Namen* und ein *Passwort* erwarten
-        - Erstelle ein Dictionary mit den Feldern *email*, *password* und *fullname*
-        - Führe die Registrierung mit dem TestClient Objekt wie folgt aus:
-        ```python
-        response = client.post("/register", json=data)
-        ```
-        - Wobei *data* das erstellte Dictionary ist
-        - Extrahiere aus *response* den *access_token* mit
-        ```python
-        auth_token = response.json()["access_token"]
-        ```
-        - Gebe diesen Token wie folgt als Funktionsrückgabewert an
-        ```python
-        return {"Authorization": f"Bearer {auth_token}"}
-        ```
-    - Erstelle eine weitere Methode *update_access_token_header*, der einen neuen Token in Form eines Strings entgegennimmt und wie oben einen Authorization Header zurück gibt
-    - Rufe am Ende von *prep.py* die Methode zur Registrierung auf und speichere den Authorization Header in einer Variable *access_token_header*
-
-
-- **[ ] Erstelle ein File zum Testen der Beschränkung von Endpunkten**
-    - Um nicht authorizierten Zugriff auf unsere implementierten Endpunkte zu erlauben prüfen wir zunächst ob alle Endpunkte zuverlässig einen *Authorization Error* werfen, wenn kein valider Token mitgegeben wird
-    - Erstelle daher ein neues File mit den Namen **test_not_auth.py**
-    - Importiere hier von *.prep* den erstellten TestClienten **client**
-    - Erstelle für jeden Endpunkt eine Methode, wie die folgende:
-    ```python
-    def test_get_all_users_no_auth():
-        response = client.get("/users")
-        assert response.status_code == 401
-        assert response.json() == {"detail": "Not authenticated"}
-    ```
-    - Wir verwenden den *client* um eine *GET* Anfrage an den Endpunkt */user* durchzuführen
-    - Da wir alle Endpunkte nur für authorisierte User zulassen möchten, erwarten wir hier
-        - Den Status Code *401*
-        - Als Empfange Antwort das oben beschriebene JSON
-
-
-- **[ ] Erstelle Files zum Testen der beschränkten Endpunkte**
-    - Anders als in den vorherigen Tests, soll nun getestet werden, ob die Funktionen auch tatsächlich das tun, für das sie ursprünglich implementiert wurden
-    - Für eine bessere Übersichtlichkeit erstelle jeweils Files für das Testen von den Endpunkten für User-, Book- und Booking-Endpunkte
-        - *"test_user_endpoints.py"*
-        - *"test_book_endpoints.py"*
-        - *"test_booking_endpoints.py"*
-    - Damit du auch Zugriff auf die Methoden hast, muss bei jeder Anfrage, ein valider Token mitgeben werden. Importiere dazu in jedem der Files, den *client* und den *access_token_header*
-    - Mache dir nun Gedanken, wie du jeden Endpunkt sinnvoll testen kannst. Wichtig ist natürlich die Grundfunktionalität, aber auch das Prüfen, ob die Funktion mit allen möglichen Input Kombination immernoch so funktioniert wie ursprünglich gedacht. Ein wichtigtes Stichwort dafür, sind die so genannten *Äquivalenzklassen*. Siehe dazu diesen Link: https://de.wikipedia.org/wiki/%C3%84quivalenzklassentest
-    - Nachfolgend siehst du zwei Tests für den gleichen Endpunkt. Der eine prüft, ob das Buch korrekt angelegt wurde und der Zweite, ob wir eine Fehlermeldung erhalten, wenn wir probieren, das gleiche Buche nochmals anzulegen:
-    ```python
-    ## Add Books at first:
-    def test_add_books():
-        input_data = {"title": "Book Title", "author": "Test Author", "isbn" : "123456789"}
-        response = client.post("/book/add_single", json=input_data, headers=access_token_header)
-        assert response.status_code == 200
-        response_data = response.json()
-        assert response_data['title'] == "Book Title"
-        assert response_data['author'] == "Test Author"
-        assert response_data['isbn'] == "123456789"
-
-    ## Try to add the same book again:
-    def test_add_same_book_again():
-        input_data = {"title": "Book Title", "author": "Test Author", "isbn" : "123456789"}
-        response = client.post("/book/add_single", json=input_data, headers=access_token_header)
-        assert response.status_code == 404
-        response_data = response.json()
-        assert response_data == {"detail": "Book with ISBN {} already exist".format("123456789")}
-    ```
-    - Da es sich bei dem *'/book/add_single'* Endpunkt um eine Post Methode handelt und Daten erwartet werden, erstellen wir zunächst das Dict 'input_data', mit den Feldern, die von der jeweiligen Methode erwartet wird.
-    - Diese wird über den 'client' innerhalb einer *POST* Methode zusammen mit dem *access_token_header* übergegeben.
-    - Anschließend wird über das *'assert'* Keyword die wichtigen Abfragen durchgeführt, wie ob der übergebene Titel auch dem vom Input entspricht etc.
-    - Im zweiten Test wird exakt der gleiche Datensatz übergeben. Nur wird dieses Mal ein Fehler erwartet, der aber eben auch abgeprüft wird.
+    - **[ ] Vervollständigen die User spezifischen Endpunkte in main.py**
+        - Nutze die Methode *get_user_by_email* aus *crud.py* um im Endpunkt den User über die Email zurückzugeben. Achte dabei darauf, dass im Falle, dass ein User nicht existiert, eine *HTTPException* geworfen wird
+        - Implementiere den Endpunkt zur Registrierung von einem Nutzer *register_user*:
+            - Prüfe zunächst, ob die übergebene Email Adresse bereits registriert ist. Sollte das der Fall sein, werfe eine *HTTPExcetion*
+            - Sofern das nicht der Fall ist, übergebe das übermittelte *UserRegisterSchema* und die Datenbank Session der Methode *register_new_user* in *crud.py* um einen neuen User zu erstellen. 
+            - Damit der User direkt nach der Registrierung Zugriff auf die geschützten Methoden hat, soll hier nun auch direkt ein Token aus der Email-Adresse des neuen Users erstellt und zurückgegeben werden.
+            - Erstelle dir hierzu zunächst eine lokale Variable *access_token_expires* das ein *timedelta* mit dem Wert der Konstante *ACCESS_TOKEN_EXPIRE_MINUTES* erstellt.
+            - Erstelle anschließend ein Token mit der Methode *create_access_token*, bei dem für den Parameter *data* ein Dictionary mit dem Schlüssel "email" und der User Email-Adresse als Wert übergeben wird. Außerdem wird das *access_token_expires* für den Parameter *expires_delta* der gleichen Methode übergeben.
+            - Gebe anschließend folgendes Dictionary als Rückgabe Wert für diesen Endpunkt zurück:
+                ```python
+                return {"access_token": token, "token_type":"bearer"} 
+                ``` 
+        - Implementiere den Endpunkt zum Login von einem User *login_user*
+            - Als Übergabeparameter wird Nachfolgendes benötigt:
+                - *form_data* vom Typ *OAuth2PasswordRequestForm*, das du von *fastapi.security* ggfs. noch importieren musst
+                - Eine Datenbank Session *db* als Dependency Injection von *get_db*
+            - Prüfe mit der Methode *authenticate_user* aus *crud.py*, ob die Eingaben aus *form_data* stimmen. Nutze Dazu die Felder *username* für die Email-Adresse und *password* für das Passwort
+            - Sofern der User sich mit den Eingaben authentifizieren konnte, erstellst du, ähnlich wie in *register_user* ein Token. 
+        - Implementiere die Methode zum Aktualisieren von der Email-Adresse *update_email*
+            - Extrahiere aus dem übergebenen Token die Email-Adresse
+            - Gebe dir für die Email Adresse das zugehörige User Objekt mit der Methode *get_user_by_mail* aus der *crud.py*
+            - Sofern es diesen User gibt, rufe die Methode zum Aktualisieren der Email-Adresse aus der *crud.py* auf
+            - Sofern es den User nicht gibt, werfe eine *HTTPException*
+        - Implementiere die Methode zum Aktualisieren des User Passwords *update_password*
+            - Führe die Schritte zum Ändern des Passwords, analog zu den Schritten beim Ändern der Email-Adresse, durch.
+        - Implementiere die Methode zum Löschen des aktuellen Nutzers' *delete_current_user*
+            - Prüfe im Vorfeld, ob das übergebene Passwort zu dem User gehört. Extrahiere hierfür davor die Email-Adresse aus dem übergebenen Token
+            - Sofern sich der User authentifizieren konnte, rufe das User Objekt mit der übergebenen Email-Adresse auf und prüfe zur Sicherheit nochmal, ob dieser User auch existiert. 
+            - Sofern der User existiert, rufe die in *crud.py* implementierte Methode *remove_current_user* auf, um den User aus der Datenbank zu entfernen.
+            - Prüfe anhand des Rückgabewertes von *remove_current_user* ob das Entfernen des Users' erfolgreich war
+            - Füge an allen Stellen eine Werfen von einer *HTTPException*, die dir sinnvoll erscheinen.
 
 **English**
 
-As already described in the summary, unit tests for testing the interface are implemented until the next branch. To do this, we create a new folder next to the actual source code and also create start scripts for this, similar to the scripts for starting the Uvicorn server.
+In this section it will be your task to provide methods to turn a plaintext password, which will be the password submitted by the user, into a hashed one, i.e. one that cannot be traced back to the original input. Besides, a method is needed to check whether a plaintext password matches the hashed password later in the database or not.
 
-- **[ ] Rename the folder *src* to *app* and create a folder *test* next to it with a "__init__" file**.
+With these new methods, we can then implement the missing methods in *crud.py*, as well as in *main.py*, since we are now able to store the passwords of the users securely. Below, I have again provided you with a list of tasks to be done. Have fun with it :)
 
-- **[ ] Depending on the system you are working on, create a script to start the tests**.
-    - For Linux *startTestingOnLinux.sh*
-        ``bash
-        #!/bin/bash
+- **[ ] Create a new file in the *auth* folder with the name *password_handler.py***.
+    - Import from *passlib.context* the *CryptoContext*.
+    - Create an object of type *CryptoContext* and name *pwd_context* and pass the following arguments:
+        - 'schemes=["bcrypt"]'
+        - 'deprecated="auto"'
+    - Create the following two methods:
+        - *verifiy_password*, which has two strings as parameters
+        - *get_password_hash*, which has one string for the password in plaintext as parameter
+    - To convert a plaintext password into hash string, you have to call from object *pwd_context* the method *hash(...)* with the passed plaintext. This method will then return the hash created from the password, which you then define as a return value
+    - To check if a plaintext password matches the hash of the password, you must call the *verifiy(...)* method from the *pwd_context* object, passing first the password as plaintext and then the password as hash. The method then returns a bool which should also serve as return value for this method
 
-        # Try to remove SQLlite Database
-        rm sql_app.db
+- **[ ] Completing the methods in crud.py**
+    - Create a method that checks if a user is already registered.
+    - Create a method in which a user is authenticated with his email and password. Return either *True* or *False* as appropriate.
+    - Extend the method *register_new_user*:
+        - The pre-check should take place in the endpoints (e.g. if the given email address is already registered).
+        - Generate with *get_password_hash* a hash from the passed password
+        - Create an object *db_user* of type *user*, and pass the data for the *email-address* and the *password hash
+        - Add this object to the database and pass it again as function return value
+    - Extend the method *update_password*:
+        - Create a hash from the new password, which is passed as plaintext, with the method *get_password_hash
+        - Update the field *hashed_password* from the passed user object *db_user*.
+        - Add the updated *user* object to the database and use this object as function return value as well
+    - Extend the method *remove_current_user*.
+        - Since we really only want to remove the user if we have it confirmed by entering the password again, implement this method only now.
+        - Use the following statement to remove the passed *user* object from the database: *db.query(User).filter_by(id = db_user.id).delete()
+        - Store the return value of the delete operation in a local variable. Provided the delete was successful, this variable will say True. Only if this is the case we want to commit these operations and return True, otherwise we return False
 
-        # Start Testing with pytest
-        pytest -vv
-        ```
-        *Note* Please make this script executable with the following command:
-        ``bash
-        sudo chmod +x startTestingOnLinux.sh
-        ```
-    - For Windows *startTestingOnWindows* ```bat
-        ``bat
-        del sql_app.db
-
-        pytest -vv
-        ```
-
-- **[ ] Create the file *prep.py* in which we implement all the preparations for testing**.
-    - In this file you have to import the **TestClient**, which serves as an interface to the endpoints in *main.py*, vo *fastapi.testclient*.
-    - Then you have to import the package *sys* and enable the import from the *app* folder with the following statement:
-    ``python
-    sys.path.append("..")
-    ```
-    - Then import from *app.main* the object **app**.
-    - Create an object of type *TestClient* to which you pass the just imported *app*.
-    - Set three variables for an *email address*, *password* and a *name*, which we need for initial registration and to retrieve a token to use the protected endpoints.
-    - Then create a method that expects an *email address*, a *name* and a *password* as parameters.
-        - Create a dictionary with the fields *email*, *password* and *fullname*.
-        - Execute the registration with the TestClient object as follows:
-        ``python
-        response = client.post("/register", json=data)
-        ```
-        - Where *data* is the dictionary created.
-        - Extract the *access_token* from *response* with
-        python
-        auth_token = response.json()["access_token"]
-        ```
-        - Specify this token as a function return value as follows
-        ``python
-        return {"Authorisation": f "Bearer {auth_token}"}
-        ```
-    - Create another method *update_access_token_header* that takes a new token in the form of a string and returns an Authorization header as above.
-    - At the end of *prep.py*, call the method to register and store the Authorization Header in a variable *access_token_header*.
-
-
-- **[ ] Create a file to test the restriction of endpoints**.
-    - To allow unauthorised access to our implemented endpoints, we first check that all endpoints will reliably throw an *Authorisation Error* if a valid token is not provided.
-    - Therefore create a new file with the name **test_not_auth.py**.
-    - Import the created test client **client** from *.prep*.
-    - Create a method for each endpoint, like the following:
-    ``python
-    def test_get_all_users_no_auth():
-        response = client.get("/users")
-        assert response.status_code == 401
-        assert response.json() == {"detail": "Not authenticated"}
-    ```
-    - We use the *client* to make a *GET* request to the endpoint */user*.
-    - Since we want to allow all endpoints only for authorised users, we expect here
-        - The status code *401*
-        - Receive the JSON described above as a response.
-
-- **[ ] Create files to test the restricted endpoints**.
-    - In contrast to the previous tests, we now want to test whether the functions actually do what they were originally implemented to do.
-    - For a better overview, create files for testing the endpoints for user, book and booking endpoints
-        - *"test_user_endpoints.py "*
-        - *"test_book_endpoints.py "*
-        - *"test_booking_endpoints.py "*
-    - In order to have access to the methods, a valid token must be provided with each request. To do this, import the *client* and the *access_token_header* in each of the files.
-    - Now think about how you can test each endpoint in a meaningful way. Of course, the basic functionality is important, but also checking whether the function still works as originally intended with all possible input combinations. An important keyword for this are the so-called *equivalence classes*. See this link: https://de.https://en.wikipedia.org/wiki/Equivalence_partitioning
-    - Below you see two tests for the same endpoint. One checks if the book was created correctly and the second if we get an error message when we try to create the same book again:
-    ``python
-
-    ## Add Books at first:
-    def test_add_books():
-        input_data = {"title": "Book Title", "author": "Test Author", "isbn" : "123456789"}
-        response = client.post("/book/add_single", json=input_data, headers=access_token_header)
-        assert response.status_code == 200
-        response_data = response.json()
-        assert response_data['title'] == "Book Title".
-        assert response_data['author'] == "Test Author"
-        assert response_data['isbn'] == "123456789"
-
-    
-    ## Try to add the same book again:
-    def test_add_same_book_again():
-        input_data = {"title": "Book Title", "author": "Test Author", "isbn" : "123456789"}
-        response = client.post("/book/add_single", json=input_data, headers=access_token_header)
-        assert response.status_code == 404
-        response_data = response.json()
-        assert response_data == {"detail": "Book with ISBN {} already exist".format("123456789")}
-    ```
-    - Since the *'/book/add_single'* endpoint is a post method and data is expected, we first create the dict 'input_data', with the fields expected by the respective method.
-    - This is passed via the 'client' within a *POST* method along with the *access_token_header*.
-    - Afterwards, the important queries are carried out via the *'assert'* keyword, such as whether the title passed also corresponds to that of the input, etc. The second test is carried out with exactly the same data.
-    - In the second test, exactly the same data set is passed. Only this time an error is expected, which is also checked.
-
-
-Translated with www.DeepL.com/Translator (free version)
-
-
-
+    - **[ ] Complete the user specific endpoints in main.py**.
+        - Use the *get_user_by_email* method from *crud.py* to return the user by email in the endpoint. Make sure that in case a user does not exist, a *HTTPException* is thrown.
+        - Implement the endpoint to register a user *register_user*:
+            - First check if the given email address is already registered. If this is the case, throw a *HTTPExcetion*.
+            - If not, pass the given *UserRegisterSchema* and the database session of the method *register_new_user* into *crud.py* to create a new user. 
+            - So that the user has access to the protected methods directly after the registration, a token from the email address of the new user is to be created and returned here now also directly.
+            - First create a local variable *access_token_expires* which creates a *timedelta* with the value of the constant *ACCESS_TOKEN_EXPIRE_MINUTES*.
+            - Then create a token with the *create_access_token* method, passing for the *data* parameter a dictionary with the key "email" and the user email address as value. Also, pass the *access_token_expires* for the *expires_delta* parameter of the same method.
+            - Then return the following dictionary as the return value for this endpoint:
+                ``python
+                return {"access_token": token, "token_type": "bearer"} 
+                ``` 
+        - Implement the endpoint to login from a user *login_user*.
+            - The following is needed as a transfer parameter:
+                - *form_data* of type *OAuth2PasswordRequestForm*, which you may have to import from *fastapi.security*.
+                - A database session *db* as dependency injection of *get_db*
+            - Check with the method *authenticate_user* from *crud.py* if the input from *form_data* is correct. Use the fields *username* for the email address and *password* for the password.
+            - If the user could authenticate himself with the input, you create a token, similar to *register_user*. 
+        - Implement the method to update the email address *update_email*.
+            - Extract the email address from the passed token
+            - Get the user object for the email address with the method *get_user_by_mail* from *crud.py
+            - If this user exists, call the method to update the email address from *crud.py*.
+            - If the user does not exist, throw a *HTTPException*.
+        - Implement the method to update the user password *update_password*.
+            - Perform the steps to change the password, analogous to the steps to change the email address.
+        - Implement the method to delete the current user *delete_current_user*.
+            - Check in advance if the given password belongs to the user. Extract the email address from the passed token beforehand.
+            - If the user could authenticate, call the user object with the given email address and check again if this user exists. 
+            - If the user exists, call the method *remove_current_user* implemented in *crud.py* to remove the user from the database.
+            - Check the return value of *remove_current_user* to see if the user was removed successfully.
+            - Add a throwing of a *HTTPException* at all places that seem to make sense to you.
