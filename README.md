@@ -4,19 +4,19 @@
 
 **German/Deutsch**
 
-Hallo und Herzlich Willkommen zu Branch 4 *database_with_sqlalchemy*. Seit dem letzten Branch, haben wir alle notwendigen Implementierungen durchgeführt um eine Datenbank mit dem *SQLAlchemy* Package zu erstellen. Wie bereits in der Einführung zu diesem Projekt erwähnt, soll in diesem Tutorial eine einfache Bibliotheksverwaltung geschrieben werden, in der es Nutzer, Bücher und Reservierungen, oder auch Bookings gibt. Für jedes dieser drei Elemente wurde ein Model bzw. eine Tabellenstruktur erstellt. Außerdem wurden die ersten CRUD (https://de.wikipedia.org/wiki/CRUD) Methoden zur Interaktion mit der Datenbank erstellt und die zum Zugriff auf die Datenbank notwendigen Methoden für die 'Dependency Injection' erstellt. Außerdem wurden so genannte 'schemas' erstellt, die als Eingabestruktur für die Endpunkte dienen. Diese müssen beim Abrufen der jeweiligen Endpunkte zur Verfügung gestellt werden, damit der jeweilige Endpunkt die Anfrage auch akzeptiert. Was wir in zwischen diesem und dem nächsten Branch zu tun haben, erfährst du in der unteren Sektion. Ich wünsche dir, wie immer, viel Spaß bei diesem Tutorial und freue mich immer über Vorschläge und Kommentare :)
+Hallo und Herzlich Willkommen zu Branch 4 *database_with_sqlalchemy*. Seit dem letzten Branch, haben wir alle notwendigen Implementierungen durchgeführt um eine Datenbank mit dem *SQLAlchemy* Package zu erstellen. Wie bereits in der Einführung zu diesem Projekt erwähnt, soll in diesem Tutorial eine einfache Bibliotheksverwaltung geschrieben werden, in der es Nutzer, Bücher und Reservierungen, oder auch Bookings gibt. Für jedes dieser drei Elemente wurde ein Model oder eine Tabellenstruktur erstellt. Außerdem wurden die ersten CRUD Methoden zur Interaktion mit der Datenbank erstellt und die zum Zugriff auf die Datenbank notwendigen Methoden für die 'Dependency Injection' erstellt. Außerdem wurden so genannte 'schemas' erstellt, die als Eingabestruktur für die Endpunkte dienen. Diese müssen beim Abrufen der jeweiligen Endpunkte zur Verfügung gestellt werden, damit der jeweilige Endpunkt die Anfrage auch akzeptiert. Was wir in zwischen diesem und dem nächsten Brank zu tun haben, erfährst du in der unteren Sektion. Ich wünsche dir, wie immer, viel Spaß bei diesem Tutorial und freue mich immer über Vorschläge und Kommentare :)
 
 **English**
 
-Hello and welcome to Branch 4 *database_with_sqlalchemy*. Since the last branch, we have done all the necessary implementations to create a database with the *SQLAlchemy* package. As already mentioned in the introduction to this project, in this tutorial we want to write a simple library management where there are users, books and reservations, or bookings. For each of these three elements a model or table structure was created. In addition, the first CRUD (https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) methods for interaction with the database were created and the methods necessary to access the database for 'Dependency Injection' were created. So-called 'schemas' were also created, which serve as the input structure for the endpoints. These must be provided when the respective endpoints are retrieved, so that the respective endpoint also accepts the request. You can find out what we have to do in between this and the next branch in the section below. As always, I hope you enjoy this tutorial and I'm always happy to receive suggestions and comments :)
+Hello and welcome to Branch 4 *database_with_sqlalchemy*. Since the last branch, we have done all the necessary implementations to create a database with the *SQLAlchemy* package. As already mentioned in the introduction to this project, in this tutorial we want to write a simple library management where there are users, books and reservations, or bookings. For each of these three elements a model or table structure was created. In addition, the first CRUD methods for interaction with the database were created and the methods necessary to access the database for 'Dependency Injection' were created. So-called 'schemas' were also created, which serve as the input structure for the endpoints. These must be provided when the respective endpoints are retrieved, so that the respective endpoint also accepts the request. You can find out what we have to do in between this and the next brank in the section below. As always, I hope you enjoy this tutorial and I'm always happy to receive suggestions and comments :)
 
 ## Task for this Branch
 
 **German/Deutsch**
 
-Bis zum nächsten Branch ist es deine Aufgabe, Methoden bereitzustellen, mit denen man aus einem Klartext, das dem vom User übermittelten Passwort sein wird, ein gehashted, also nicht wieder auf die originale Eingabe zurückzuführenden Text, zu machen. Daneben wird eine Methode benötigt, die überprüft, ob ein Klartext Passwort, mit dem später in der Datenbank gehashten Password übereinstimmt oder nicht.
+In diesem Abschnitt wird es deine Aufgabe sein, Methoden bereitzustellen, mit denen man aus einem Klartext, das dem vom User übermittelten Passwort sein wird, ein gehashted, also nicht wieder auf die originale Eingabe zurückzuführenden Text, zu machen. Daneben wird eine Methode benötigt, die überprüft, ob ein Klartext Password, mit dem später in der Datenbank gehashten Password übereinstimmt oder nicht.
 
-Mit diesen neuen Methoden können wir dann auch die fehlenden Methoden in der *crud.py*, als auch in *main.py* implementieren, da wir nun in der Lage sind, die Passwörter der User sicher zu speichern. Nachfolgend habe ich dir erneut eine Liste mit den zu erledigenden Aufgaben erstellt. Ich empfehle dir jedoch stark, das YT Video von mir nebenher zu gucken. Viel Spaß damit :)
+Mit diesen neuen Methoden, können wir dann auch die fehlenden Methoden in der *crud.py*, als auch in *main.py* implementieren, da wir nun in der Lage sind, die Passwörter der User sicher zu speichern. Nachfolgend habe ich dir erneut eine Liste mit den zu erledigenden Aufgaben erstellt. Viel Spaß damit :)
 
 - **[ ] Erstelle ein neues File im *auth* Ordner mit dem Namen *password_handler.py***
     - Importiere von *passlib.context* den *CryptoContext*
@@ -43,7 +43,7 @@ Mit diesen neuen Methoden können wir dann auch die fehlenden Methoden in der *c
         - Füge das aktualisierte *User* Objekt der Datenbank hinzu und nutze dieses Objekt ebenfalls als Funktionsrückgabe Wert
     - Erweitere die Methode *remove_current_user*
         - Da wir den Nutzer wirklich nur dann entfernen möchten, wenn wir uns das per erneuter Passwort Eingabe bestätigen lassen, implementierst du diese Methode erst jetzt.
-        - Nutze folgende Anweisung um das übergebene *User* Objekt aus der Datenbank zu entfernen: *db.query(User).filter_by(id = db_user.id).delete()*
+        - Nutze folgende Anweisung um das übergebene *User* Objekt aus der Datenbank zu entfernen: *db.query(User).filter_by(id = db_user.id).delete()
         - Speichere dir den Rückgabewert der Lösch-Operation in einer lokalen Variable. Sofern die Löschung erfolgreich war, wird in dieser Variable True stehen. Nur wenn das der Fall ist, möchten wir diese Operationen commiten und True zurückgeben, andernfalls geben wir False zurück
 
     - **[ ] Vervollständigen die User spezifischen Endpunkte in main.py**
@@ -109,7 +109,7 @@ With these new methods, we can then implement the missing methods in *crud.py*, 
         - Add the updated *user* object to the database and use this object as function return value as well
     - Extend the method *remove_current_user*.
         - Since we really only want to remove the user if we have it confirmed by entering the password again, implement this method only now.
-        - Use the following statement to remove the passed *user* object from the database: *db.query(User).filter_by(id = db_user.id).delete()*
+        - Use the following statement to remove the passed *user* object from the database: *db.query(User).filter_by(id = db_user.id).delete()
         - Store the return value of the delete operation in a local variable. Provided the delete was successful, this variable will say True. Only if this is the case we want to commit these operations and return True, otherwise we return False
 
     - **[ ] Complete the user specific endpoints in main.py**.
@@ -121,7 +121,7 @@ With these new methods, we can then implement the missing methods in *crud.py*, 
             - First create a local variable *access_token_expires* which creates a *timedelta* with the value of the constant *ACCESS_TOKEN_EXPIRE_MINUTES*.
             - Then create a token with the *create_access_token* method, passing for the *data* parameter a dictionary with the key "email" and the user email address as value. Also, pass the *access_token_expires* for the *expires_delta* parameter of the same method.
             - Then return the following dictionary as the return value for this endpoint:
-                ```python
+                ``python
                 return {"access_token": token, "token_type": "bearer"} 
                 ``` 
         - Implement the endpoint to login from a user *login_user*.
