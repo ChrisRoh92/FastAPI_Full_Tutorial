@@ -5,7 +5,7 @@
 **German/Deutsch** 
 
 - Hallo und Herzlich Willkommen zu diesem FastAPI Tutorial. Dieses Repo ist begleitend zu dem Video auf meinem Channel *CodingWithChris*. Das Repo ist so
-aufgebaut, dass es dich von den wichtigsten Momenten aus dem Video führt. Jeder Branch ist nummeriert und enthält das, was wesentlich gemacht wurde im Namen. Ich hoffe dieses Repo bereitet dir mindestens so viel Freude, wie es für mich war, das alles aufzubauen. 
+aufgebaut, das es dich von den wichtigsten Momenten aus dem Video führt. Jeder Branch ist nummeriert und im so benannt, dass sich ergibt, was seit dem letzten Branch durchgeführt wurde. 
 
 - Du findest in jedem nummerierten Branch eine Zusammenfassung, von dem implementieren Features im Vergleich zum Vorherigen Branch. Gleichzeitig findest du in diesem File in dem nächsten Abschnitt, die Aufgaben bzw. Tasks, die du für den nächsten Stand zu tun sind. Du musst sicherlich nicht wortwörtlich den gleichen Code haben, und bestimmt auch nicht alles gleich haben. Vielleicht findest du andere Methoden und andere Funktionalitäten wichtiger und möchtest 
 diese gerne sehen. Es soll dir vor allem eine Hilfe sein, dieses Thema genauer zu verstehen und dir die Möglichkeit geben, genau zu erkennen, was durch welches Implementierungsdetail erreicht wurde.
@@ -16,10 +16,10 @@ diese gerne sehen. Es soll dir vor allem eine Hilfe sein, dieses Thema genauer z
 
 **English**
 
-- Hello and welcome to this FastAPI tutorial. This repo is accompanying the video on my channel 'CodingWithChris'. The repo is structured
-structured to guide you from the most important moments in the video. Each branch is numbered and includes what was significantly done in the name. I hope this repo gives you at least as much pleasure as it was for me to set it all up. 
+- Hello and welcome to this FastAPI tutorial. This repo is accompanying the video on my channel *CodingWithChris*. The repo is structured
+that it takes you from the most important moments in the video. Each branch is numbered and named to indicate what has been done since the last branch. 
 
-- You will find in each numbered branch a summary of the implemented features compared to the previous branch. At the same time you will find in this file in the next section, the tasks you have to do for the next state. You certainly don't have to have literally the same code, and you certainly don't have to have everything the same. Maybe you find other methods and other functionalities more important and would like to see them. 
+- You will find in each numbered branch a summary of the implemented features compared to the previous branch. At the same time you will find in this file in the next section, the tasks that you have to do for the next state. You certainly don't have to have literally the same code, and you certainly don't have to have everything the same. Maybe you find other methods and other functionalities more important and would like to see them. 
 and would like to see them. It should mainly be a help for you to understand this topic in more detail and give you the possibility to see exactly what was achieved by which implementation detail.
 
 - You are in the first branch, the 'Start' branch as I called it. Here you will find all the important files you need for this project, as well as a basic structure, which may even change, who knows :)
