@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 from typing import Union
-from fastapi import Depends, HTTPException, status
+from fastapi import HTTPException, status
 from jose import jwt
 from fastapi.security import OAuth2PasswordBearer
 
@@ -23,8 +23,7 @@ def create_access_token(data: dict, expires_delta: Union[timedelta, None] = None
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
-## Method is using Dependency Injection
-def is_token_valid(token: str = Depends(oauth2_scheme)):
+def is_token_valid(token: str):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         expire: str = payload.get("exp")
@@ -40,8 +39,7 @@ def is_token_valid(token: str = Depends(oauth2_scheme)):
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-## Method is using Dependency Injection
-def extract_email_from_token(token: str = Depends(oauth2_scheme)):
+def extract_email_from_token(token: str):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         email = payload.get("email")
