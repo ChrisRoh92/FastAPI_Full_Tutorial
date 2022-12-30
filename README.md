@@ -4,7 +4,7 @@
 
 **German/Deutsch** 
 
-Hallo und Herzlich Willkommen zu Branch 3 **end_points_with_authentification**. Seit dem letzten Branch haben wir die notwendingen Methoden und Objekte erstellt, mit denen wir den Zugriff auf bestimmte Endpunkte beschränknen können. Wir haben das erste mal mit *Dependency Injection* gearbeitet und damit den Methoden den Token bereitzustellen, sofern dieser bei der Anfrage überhaupt mitgegeben wurde. Was aktuell fehlt, ist das tatsächliche Erstellen von Token mit User Daten. Hierzu müssen wir bis zum nächsten Branch 4 uns mit der Erstellung von einer Datenbank, der Modellierung dieser und der Bereitstellung in den End Punkten kümmern.
+Hallo und Herzlich Willkommen zu Branch 3 **end_points_with_authentification**. Seit dem letzten Branch haben wir die notwendingen Methoden und Objekte erstellt, mit denen wir den Zugriff auf bestimmte Endpunkte beschränken können. Wir haben das erste mal mit *Dependency Injection* gearbeitet und damit den Methoden den Token bereitzustellen, sofern dieser bei der Anfrage überhaupt mitgegeben wurde. Was aktuell fehlt, ist das tatsächliche Erstellen von Token mit User Daten. Hierzu müssen wir bis zum nächsten Branch 4 uns mit der Erstellung von einer Datenbank, der Modellierung dieser und der Bereitstellung in den End Punkten kümmern.
 
 **English**
 
@@ -14,7 +14,7 @@ Hello and welcome to Branch 3 **end_points_with_authentification**. Since the la
 
 **German/Deutsch** 
 
-Wie im Video bereits angesprochen, soll die Software in diesem Projekt, als Bibliotheks Verwaltungssoftware genutzt werden. Das Bedeutet, dass wir natürlich eine Datenbank anlegen müssen, in dem wir sowohl neue Nutzer, Bücher und Ausleihvorgänge bzw. Reservierungen speichern müssen. Dabei kann jedem Buch ein Reservierungsvorgang, in diesem Beispiel Booking genannt, zugeordnet werden. Wir müssen also in einer Reservierung eine Referenz auf das Buch und auf den Nutzer, der es gebucht hat halten. Nebem dem Anlegen der SQL Tabellen werden bis zum nächsten Branch auch die Methoden zur Interaktion mit der Datenbank, den dazugehörigen Eingabedaten Strukturen und dem Anlegen der Datenbank selbst Aufgabe sein. In den Folgenden Schritten, werden die einzelnen Task wie immer aufgelistet. Viel Spaß!
+Wie im Video bereits angesprochen, soll die Software in diesem Projekt, als Bibliotheks Verwaltungssoftware genutzt werden. Das Bedeutet, dass wir natürlich eine Datenbank anlegen müssen, in dem wir sowohl neue Nutzer, Bücher und Ausleihvorgänge bzw. Reservierungen speichern müssen. Dabei kann jedem Buch ein Reservierungsvorgang, in diesem Beispiel 'Booking' genannt, zugeordnet werden. Wir müssen also in einer Reservierung eine Referenz auf das Buch und auf den Nutzer, der es gebucht hat halten. Nebem dem Anlegen der SQL Tabellen werden bis zum nächsten Branch auch die Methoden zur Interaktion mit der Datenbank, den dazugehörigen Eingabedaten Strukturen und dem Anlegen der Datenbank selbst Aufgabe sein. In den Folgenden Schritten, werden die einzelnen Task wie immer aufgelistet. Viel Spaß!
 
 - **[ ] Erstelle einen neuen Ordner in *src* mit dem Namen *database* und erstelle folgende Dateien in diesem Ordner:**
     - crud.py
