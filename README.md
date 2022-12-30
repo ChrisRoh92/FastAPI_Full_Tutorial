@@ -1,8 +1,8 @@
 # FastAPI_Full_Tutorial
 
-## Task for this Branch
-Deine Aufgabe in diesem Abschnitt ist es, alles zum Einrichten von FastAPI durchzuführen. Ich habe dir im Video hierzu 
-eine Einführung gegeben. Bitte mache die damit vertraut und probiere, wie du das Projekt startest und wie du damit interagieren kannst.
+## Summary
+*German/Deutsch*
+Hallo und herzlich Willkommen zu diesem FastAPI Tutorial Repository. Dieses Repo ist begleitend zu dem Youtube Video von *CodingWithChris* und soll dich durch das Tutorial führen. Starte, in dem du den für dich interessanten Branch auscheckst und dir den Code und das README anschaust. Ich wünsche dir viel Spaß mit dem Tutorial :)
 
-Your task in this section is to do everything to set up FastAPI. I have given you in the video 
-an introduction to this. Please familiarize yourself with it and try how to start the project and how to interact with it.
+*English*
+Hello and welcome to this FastAPI tutorial repository. This repo is accompanying the Youtube video of *CodingWithChris* and should guide you through the tutorial. Start by checking out the branch you are interested in and looking at the code and README. I hope you enjoy the tutorial :)
