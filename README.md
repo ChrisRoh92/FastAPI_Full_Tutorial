@@ -86,7 +86,7 @@
 
 **German/Deutsch** 
 
-Bevor wir mit der Implementierung der End Punkte unserer Schnittstelle anfangen, möchte ich dir zunächst zeigen, wie man bestimmte End Punkte nur benutzen kann, wenn man ein Authentifizierungs Token mitgibt. Dazu nutze ich das OAuth2 Framework, das von FastAPI als Vorschlag zum Schutz von Schnittstellen genutzt wird. Die Anwendung ist an sich nicht schwer, erfordert allerdings, die nachfolgenden Aufgaben zu durchlaufen.
+Bevor wir mit der Implementierung der End Punkte unserer Schnittstelle anfangen, möchte ich dir zunächst zeigen, wie man bestimmte End Punkte nur benutzen kann, wenn man ein Authentifizierungs Token mitgibt. Dazu nutze ich das OAuth2 Framework, das von FastAPI als Vorschlag zum Schutz von Schnittstellen genutzt wird. Die Anwendung ist an sich nicht schwer, erfordert allerdings, die nachfolgenden Punkte.
 
 - **[ ] Erstelle einen neuen Ordner in *src* mit dem Namen *auth***
 
@@ -111,11 +111,11 @@ Bevor wir mit der Implementierung der End Punkte unserer Schnittstelle anfangen,
     ```
 
     ``` python
-    def is_token_valid(token: str = Depends(oauth2_scheme)):
+    def is_token_valid(token: str):
     ```
 
     ``` python
-    def extract_email_from_token(token: str = Depends(oauth2_scheme)):
+    def extract_email_from_token(token: str):
     ```
     
 
@@ -207,11 +207,11 @@ Before we start implementing the end points of our interface, I first want to sh
     ```
 
     ``` python
-    def is_token_valid(token: str = Depends(oauth2_scheme)):
+    def is_token_valid(token: str):
     ```
 
     ``` python
-    def extract_email_from_token(token: str = Depends(oauth2_scheme)):
+    def extract_email_from_token(token: str):
     ```
 
 - **[ ] Implement the method to create a token**.
