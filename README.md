@@ -4,7 +4,7 @@
 
 **German/Deutsch**
 
-Herzlich Willkommen zu Branch 5 *user_password_hashing*. Seit dem letzten Branch haben wir nun auch Logik implementiert, um User in unsere Datenbank aufzunehmen und vor allem auch das Passwort sicher speichern zu können. Hierzu haben wir zwei Methoden implementiert. Die eine erzeugt aus einem Klartext Passwort ein Hash, der in der Datenbank hinterlegt wird. Die andere Methode prüft, ob eine Klartext Passwort mit einem übergebenen Hash übereinstimmt. Damit konnten wir alle Endpunkte implementieren, in der das Handling mit Passwörter notwendig war. Wir sind schon fast am Ende von diesem Projekt. Bis zum nächsten Branch müssen alle Methoden zu den Reservierungen, auch Bookings in diesem Projekt genannt, implementiert werden. Ich wünsche dir, wie immer, viel Spaß beim Bearbeiten der Aufgaben :)
+Herzlich Willkommen zu Branch 5 *user_password_hashing*. Seit dem letzten Branch haben wir nun auch Logik implementiert, um User in unsere Datenbank aufzunehmen und vor allem auch das Passwort sicher speichern zu können. Hierzu haben wir zwei Methoden implementiert. Die Eine erzeugt aus einem Klartext Passwort ein Hash, der in der Datenbank hinterlegt wird. Die andere Methode prüft, ob eine Klartext Passwort mit einem übergebenen Hash übereinstimmt. Damit konnten wir nun endlich alle Endpunkte implementieren, in der das Handling mit Passwörter notwendig war. Wir sind schon fast am Ende von diesem Projekt. Bis zum nächsten Branch müssen alle Methoden zu den Reservierungen, auch Bookings in diesem Projekt genannt, implementiert werden. Ich wünsche dir, wie immer, viel Spaß beim Bearbeiten der Aufgaben :)
 
 **English**
 
@@ -14,7 +14,7 @@ Welcome to Branch 5 *user_password_hashing*. Since the last branch, we have now 
 
 **German/Deutsch**
 
-Bis zum nächsten Branch, sollen alle Methoden rund um das Buchen von Büchern implementiert werden. Hierzu gehört insbesondere das Hinzufügen von Buchungen von Büchern und dem Anzeigen von Buchungen, die einem Buch und einem User zugeordnet sind. Beim Hinzufügen von Buchungen für ein Buch ist dabei zu beachten, dass nur dann eine Buchung akzeptiert werden kann, wenn es zu keinem Konflikt in der Zeitlichen Belegung gibt. Hierzu muss eine geeignete Zeitkollisionsprüfung implementiert werden. Wenn du dir die Klasse **Booking** in *models.py* bereits angesehen hast, siehst du, dass ich nicht ein Datum speichere sondern timestamps. Das Vergleichen von Zahlenwerten ist recht gut geeignet um Konflikte zu finden. Nachfolgend siehst du wie immer alle Aufgaben als Liste aufgeschlüsselt. Viel Spaß beim Bearbeiten :)
+Bis zum nächsten Branch, sollen alle Methoden rund um das Buchen von Büchern implementiert werden. Hierzu gehört insbesondere das Hinzufügen von Buchungen und dem Anzeigen von Buchungen, die einem Buch und einem User zugeordnet sind. Beim Hinzufügen von Buchungen für ein Buch ist dabei zu beachten, dass nur dann eine Buchung akzeptiert werden kann, wenn es zu keinem Konflikt in der Zeitlichen Belegung gibt. Hierzu muss eine geeignete Zeitkollisionsprüfung implementiert werden. Wenn du dir die Klasse **Booking** in *models.py* bereits angesehen hast, siehst du, dass ich nicht ein Datum speichere sondern 'timestamps'. Das Vergleichen von Zahlenwerten ist recht gut geeignet um Konflikte zu finden. Nachfolgend siehst du wie immer alle Aufgaben als Liste aufgeschlüsselt. Viel Spaß beim Bearbeiten :)
 
 - **[ ] Erstelle eine neue Datei mit dem Namen *utils.py* in dem Unterordner *database***
     - Importiere von *datetime* die Klasse *datetime* 
