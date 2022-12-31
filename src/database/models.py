@@ -7,8 +7,8 @@ from .database import Base
 class User(Base):
     __tablename__ = "users"
 
-    id              = Column(Integer, primary_key=True, index=True)
-    email           = Column(String, unique=True, index=True)
+    id              = Column(Integer, primary_key=True)
+    email           = Column(String, unique=True)
     hashed_password = Column(String)
     is_employee     = Column(Boolean)
 
@@ -17,20 +17,20 @@ class User(Base):
 class Book(Base):
     __tablename__ = "books"
 
-    id              = Column(Integer, primary_key=True, index=True)
-    title           = Column(String, index=True)
-    author          = Column(String, index=True)
-    isbn            = Column(String, unique=True, index=True)
+    id              = Column(Integer, primary_key=True)
+    title           = Column(String)
+    author          = Column(String)
+    isbn            = Column(String, unique=True)
 
     bookings     = relationship("Booking", back_populates="booked_book")
 
 class Booking(Base):
     __tablename__ = "bookings"
 
-    id              = Column(Integer, primary_key=True, index=True)
-    from_timestamp  = Column(Integer, index=True)
-    to_timestamp    = Column(Integer, index=True)
-    description     = Column(String, index=True)
+    id              = Column(Integer, primary_key=True)
+    from_timestamp  = Column(Integer)
+    to_timestamp    = Column(Integer)
+    description     = Column(String)
 
     book_id         = Column(Integer, ForeignKey("books.id"))
     booked_book     = relationship("Book", back_populates="bookings")
