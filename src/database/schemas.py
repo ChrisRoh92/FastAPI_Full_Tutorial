@@ -10,7 +10,7 @@ class UserBaseSchema(BaseModel):
     password: str = Field(default=None)
 
 class UserLoginSchema(UserBaseSchema):
-    class Config: ## TODO(chrohne): check, if this actually works!
+    class Config: 
         schema_extra = {
             "user" : {
                 "email": "max@mustermann.de",
@@ -20,7 +20,7 @@ class UserLoginSchema(UserBaseSchema):
 
 class UserRegisterSchema(UserBaseSchema):
     fullname: str = Field(default=None)
-    class Config: ## TODO(chrohne): check, if this actually works!
+    class Config: 
         schema_extra = {
             "user" : {
                 "fullname" : "max mustermann",
@@ -33,19 +33,19 @@ class UserRegisterSchema(UserBaseSchema):
 ## Booking 
 ########################################
 class BookingBaseSchema(BaseModel):
-    from_date: datetime.date
-    to_date: datetime.date
-    isbn: str
-    description: str
+    from_date: datetime.date    = Field(default = None)
+    to_date: datetime.date      = Field(default = None)
+    isbn: str                   = Field(default = None)
+    description: str            = Field(default = None)
 
 ########################################
 ## Book
 ########################################
 class BookBaseSchema(BaseModel):
-    isbn: str
-    title: str
-    author: str
-    class Config: ## TODO(chrohne): check, if this actually works!
+    isbn: str       = Field(default = None)
+    title: str      = Field(default = None)
+    author: str     = Field(default = None)
+    class Config:
         schema_extra  = {
             "example" : {
                 "title" : "Mathematik für Ingenieure und Naturwissenschaftler Band 1: Ein Lehr- und Arbeitsbuch für das Grundstudium",
@@ -56,7 +56,7 @@ class BookBaseSchema(BaseModel):
 
 class BookBaseListSchema(BaseModel):
     books: List[BookBaseSchema] = []
-    class Config: ## TODO(chrohne): check, if this actually works!
+    class Config:
         schema_extra  = {
             "example" : {
                 "books" : [
@@ -76,6 +76,6 @@ class BookBaseListSchema(BaseModel):
                     "isbn" : "3658161949"
                     }
             
-            ]
+                ]
             }
         }
