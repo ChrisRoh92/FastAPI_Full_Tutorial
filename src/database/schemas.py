@@ -20,6 +20,7 @@ class UserLoginSchema(UserBaseSchema):
 
 class UserRegisterSchema(UserBaseSchema):
     fullname: str = Field(default=None)
+    is_employee: bool = Field(default=None)
     class Config: 
         schema_extra = {
             "user" : {
