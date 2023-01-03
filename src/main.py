@@ -52,9 +52,8 @@ def register_user(user: UserRegisterSchema, db = Depends(get_db)):
 def login_user(form_data: OAuth2PasswordRequestForm = Depends(), db = Depends(get_db)):
     authenticated = crud.authenticate_user(db, form_data.username, form_data.password)
     if authenticated:
-        db_user = crud.get_user_by_mail(db, form_data.username)
         access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-        token = create_access_token(data={"email": db_user.email}, expires_delta=access_token_expires)
+        token = create_access_token(data={"email": form_data.username}, expires_delta=access_token_expires)
         return {"access_token": token, "token_type": "bearer"}
     else:
         raise HTTPException(
